@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="style.css">
+        
+
+        <title>Weather</title>
+    </head>
+
+    <body>
+        <div class="weatherPage">
+            <div style="color: brown; font-size: 40px; font-weight: bold; text-align: center;">Weather App</div>
+        
+        
+            <form class="location"> 
+                <!--<h1>Input Location</h1>-->
+
+                <div> Input Location: 
+                    <input type="text" id="locationTitle" placeholder="Enter Location">
+                </div>
+
+                <button type="submit">Submit Location</button>
+                <!--<button onclick="holdsLocation()">Submit</button>
+                <button id="lT">Submit</button>-->
+                
+            </form> <!--ask at the top left corner for the users location to check the weather-->
+
+
+
+
+            <div class="presentFuture">
+                <div class="currentTemp"> <p>Current Temperature: </p>
+                    <input type="text" id="currTemp" readonly="currTemp">
+                </div>
+
+                <div class="emoji"> <p>Weather Emoji: </p>
+                    <input type="text" id="emo" readonly="emo">
+                </div>
+
+                <div class="feelsLike"> <p>Feels Like: </p>
+                    <input type="text" id="feeLik" readonly="feeLik">
+                </div>
+            </div>
+
+
+            <div class="elements">
+                <div class="humidity"> <p>Humidity: </p>
+                    <input type="text" id="humid" readonly>
+                </div>
+
+                <div class="wind"> <p>Wind: </p>
+                    <input type="text" id="wind" readonly="wind">
+                </div>
+
+                <div class="precipitation"> <p>Precipitation: </p>
+                    <input type="text" id="precip" readonly="precip">
+                </div>
+            </div>
+
+            
+
+
+        </div>
+        <script src="index.js"></script>
+    </body>
+
+</html>
