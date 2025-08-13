@@ -8,7 +8,6 @@ const weatherForm = document.querySelector(".location");
 const locationInput = document.querySelector(".locationTitle");
 const apiKey = "1b8651fdb3ca42d82f15b6ba026e7bd7";
 
-//
 
 weatherForm.addEventListener("submit", async e => {
 
