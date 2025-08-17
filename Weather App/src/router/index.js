@@ -1,7 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Dashboard from '../components/MainPage.vue'
 
-const router = createRouter({
+
+const routes = [
+  { path: "/", name: "Dashboard", component: Dashboard }
+];
+
+/*const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -18,6 +23,11 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
     },
   ],
-})
+})*/
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
 
 export default router
