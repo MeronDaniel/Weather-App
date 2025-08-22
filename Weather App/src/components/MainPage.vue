@@ -16,9 +16,12 @@ defineProps({
 
 <template>
   <div class="page-wrapper">
+
+
     <form class="input-group">
       <label>Input Location: </label>
       <input type="text" v-model="location" />
+      <button type="submit">Submit Location</button>
     </form>
   </div>
 
@@ -119,13 +122,19 @@ export default {
 
 <style scoped>
 
+  .page-wrapper {
+    display: flex;
+    padding-top: 60px;
+  }
+
+
   .input-group{
     height: 90px;
     width: 200px;
-    border: 1px solid black;
     background-color: aqua;
-    table-layout: fixed;
     text-align: center;
+    margin-left: 450px;
+    margin-top: 330px;
   }
   
   .presentFuture{
@@ -143,7 +152,7 @@ export default {
       background-color: aqua;
       border: 1px solid blue;
       border-radius: 30%;
-      margin-top: 90px;
+      margin-top: 190px;
       margin-right: 50px;
   }
 
