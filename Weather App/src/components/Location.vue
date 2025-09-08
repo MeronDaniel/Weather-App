@@ -1,95 +1,70 @@
+<template>
+    <div class="input-group">
+      <label>Input Location: </label>
+      <input type="text" v-model="location" />
+      <button @click="handleSubmit">Submit Location</button>
+    </div>
+
+</template>
+
+
 
 <script>
-const weatherForm = document.querySelector(".location");
-const locationInput = document.querySelector(".locationTitle");
-const apiKey = "1b8651fdb3ca42d82f15b6ba026e7bd7";
 
+export default {
+    data(){
+        return{
+            location: '',
+        };
+    },
 
-weatherForm.addEventListener("submit", async e => {
+    methods: {
+        async handleSubmit() {
+            if (!this.location){
+                 alert("Input Location!") //if there is no location input
+                return;
+            }
+            
+            else{
+                const apiKey = import.meta.env.VITE_API_KEY;
+                const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${this.location}&appid=${apiKey}`;
+                
+                const response = await fetch(apiUrl);
+                const data = await response.json();
 
-    e.preventDefault(); // Prevents the page from reloading
-    const city = locationTitle.value;
+                console.log(response);
 
-    if (city){
-    
-        try{
-            const weatherData = await getWeatherData(city);
-            displayWeatherData(weatherData);
+                if (!response.ok){
+                    alert ("Location entered does not exist, please enter a real location")
+                    throw new Error("Couldn't fetch weather data");
+                }
+                
+                this.$emit('weather-data', data);
+            /*
+                try{
+                    const weatherData = await this.getWeatherData(this.location);
+                    this.displayWeatherData(weatherData);
+                }
+                catch(error){
+                    //console.error(error);
+                    this.errorSpotted(error.message);
+                };*/
+            }
         }
-        catch(error){
-            console.error(error);
-            errorSpotted(error);
-        }
-    
+
     }
-    else{
-        errorSpotted("Please enter the city");
-    }
-})
-
-
-async function getWeatherData(city){
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
-
-    const response = await fetch(apiUrl);
-
-    //console.log(response);
-
-    if (!response.ok){
-        throw new Error("Couldn't fetch weather data");
-    }
-    return await response.json();
-}
-
-function displayWeatherData(weatherData){
-
-    const {name: city, 
-           main: {temp, humidity, feels_like, sea_level},
-           weather: [{description, id}],
-           wind: {speed}} = weatherData.list[0];
-
-
-    document.getElementById("currTemp").value = `${(temp - 273.15).toFixed(1)}°C`;
-    document.getElementById("feeLik").value = `${(feels_like - 273.15).toFixed(1)}°C`;
-    document.getElementById("humid").value = `${humidity}%`;
-    document.getElementById("wind").value = `${speed * 3.6} km/h`; //wind default measurement is metres/second
-    document.getElementById("precip").value = `${sea_level}%`;
-    document.getElementById("emo").value = getWeatherEmoji(id);
-    
-
-}
-
-function getWeatherEmoji(weatherID){
-    switch(true){
-        case(weatherID >= 200 && weatherID <= 232):
-            return "⛈️";
-        
-        case(weatherID >= 300 && weatherID <= 321):
-            return "🌦";
-        
-        case(weatherID >= 500 && weatherID <= 531):
-            return "🌧️";
-        
-        case(weatherID >= 600 && weatherID <= 622):
-            return "❄️";
-        
-        case(weatherID >= 701 && weatherID <= 781):
-            return "🌫️";
-        
-        case(weatherID === 800):
-            return "☀️";
-        
-        case(weatherID >= 801 && weatherID <= 804):
-            return "☁️";
-
-        default:
-            return "NOTHING";
-        
-    }
-}
-
-function errorSpotted(message){
-    console.log(message);
 }
 
 </script>
+
+
+<style scoped>
+  .input-group{
+    height: 90px;
+    width: 200px;
+    background-color: aqua;
+    text-align: center;
+    margin-left: 450px;
+    margin-top: 330px;
+  }
+</style>

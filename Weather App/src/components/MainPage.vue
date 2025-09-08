@@ -14,109 +14,122 @@ defineProps({
 })
 </script>-->*/
 
+<script>
+import Location from "./Location.vue";
+
+export default {
+  components: {
+    Location,
+  },
+  data() {
+    return {
+      currTemp: '',
+      feeLik: '',
+      humid: '',
+      wind: '',
+      precip: '',
+      emo: ''
+    }
+  },
+
+  methods: {
+    displayWeatherData(data){
+
+      const {name: location, 
+          main: {temp, humidity, feels_like, sea_level},
+          weather: [{description, id}],
+          wind: {speed}} = data.list[0];
+      
+      this.currTemp = `${(temp - 273.15).toFixed(1)}°C`;
+      //console.log(this.currTemp);
+      //console.log(currTemp);
+
+      this.feeLik = `${(feels_like - 273.15).toFixed(1)}°C`;
+
+      this.humid = `${humidity}%`
+
+      this.wind = `${speed * 3.6} km/h`; //wind default measurement is metres/second
+      
+      this.precip = `${sea_level}%`;
+
+      this.emo = this.getWeatherEmoji(id);
+    },
+
+    getWeatherEmoji(weatherID){
+      switch(true){
+
+        case(weatherID >= 200 && weatherID <= 232):
+            return "⛈️";
+        
+        case(weatherID >= 300 && weatherID <= 321):
+            return "🌦";
+        
+        case(weatherID >= 500 && weatherID <= 531):
+            return "🌧️";
+        
+        case(weatherID >= 600 && weatherID <= 622):
+            return "❄️";
+        
+        case(weatherID >= 701 && weatherID <= 781):
+            return "🌫️";
+        
+        case(weatherID === 800):
+            return "☀️";
+        
+        case(weatherID >= 801 && weatherID <= 804):
+            return "☁️";
+
+        default:
+            return "NOTHING"; 
+      }
+    }
+  }
+
+
+
+}
+</script>
+
 <template>
   <div class="page-wrapper">
-
-
-    <form class="input-group">
-      <label>Input Location: </label>
-      <input type="text" v-model="location" />
-      <button type="submit">Submit Location</button>
-    </form>
+    <Location @weather-data="displayWeatherData" />
   </div>
 
   <div class="presentFuture">
       <div class="currentTemp"> <p>Current Temperature: </p>
-          <input type="text" id="currTemp" readonly="currTemp">
+          <input type="text" :value="currTemp" readonly>
       </div>
 
       <div class="emoji"> <p>Weather Emoji: </p>
-          <input type="text" id="emo" readonly="emo">
+          <input type="text" :value="emo" readonly>
       </div>
 
       <div class="feelsLike"> <p>Feels Like: </p>
-          <input type="text" id="feeLik" readonly="feeLik">
+          <input type="text" :value="feeLik" readonly>
       </div>
   </div>
 
 
   <div class="elements">
     <div class="humidity"> <p>Humidity: </p>
-        <input type="text" id="humid" readonly>
+        <input type="text" :value="humid" readonly>
     </div>
 
     <div class="wind"> <p>Wind: </p>
-        <input type="text" id="wind" readonly="wind">
+        <input type="text" :value="wind" readonly>
     </div>
 
     <div class="precipitation"> <p>Precipitation: </p>
-        <input type="text" id="precip" readonly="precip">
+        <input type="text" :value="precip" readonly>
     </div>
   </div>
   
 
-
-  <!--<div class="greetings">
-
-  </div>-->
 </template>
 
 
 
-<script>
-export default {
-  data() {
-    return {
-      location: ''
-    }
-  },
-  /*methods: {
-    async handleRegister() {
-      try {
-        // Validate inputs
-        if (!this.email || !this.password || !this.confirmPassword) {
-          alert('Please fill in all fields')
-          return
-        }
 
-        if (this.password !== this.confirmPassword) {
-          alert('Passwords do not match')
-          return
-        }
-
-        this.isLoading = true
-
-        // Make API call to register
-        const response = await fetch('http://localhost:3000/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password
-          })
-        })
-
-        const data = await response.json()
-
-        if (!response.ok) {
-          throw new Error(data.message || 'Registration failed')
-        }
-
-        // Registration successful
-        alert('Account created successfully! Please log in.')
-        this.$router.push('/login')
-      } catch (error) {
-        alert(error.message || 'Failed to create account. Please try again.')
-        console.error('Registration error:', error)
-      } finally {
-        this.isLoading = false
-      }
-    }
-  }*/
-}
-</script>
 
 
 
